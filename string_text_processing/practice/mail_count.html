@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://dbdwvr6p7sskw.cloudfront.net/210/files/email_data_v2.js"></script>
+  <script>
+    "use strict";
+
+    const getEmailCount = function getEmailCount(emailStr) {
+      return emailStr.match(/##\|\|##/g).length + 1;
+    };
+
+    const getEmailDates = function getEmailDates(emailStr) {
+      let dates = emailStr.match(/Date: [\d]{2}-[\d]{2}-[\d]{4}/g);
+      dates = dates.map(match => new Date(match.slice(6)));
+      return dates.sort((a, b) => a.getTime() - b.getTime());
+    };
+
+    const mailCount = function mailCount(emailData) {
+      let emailCount = getEmailCount(emailData);
+      let dateRange = getEmailDates(emailData);
+      let firstDate = dateRange[0];
+      let lastDate = dateRange[dateRange.length - 1];
+
+      console.log(`Count of Email: ${emailCount}`);
+      console.log(`Date Range: ${firstDate.toDateString()} - ${lastDate.toDateString()}`);
+    };
+
+    mailCount(emailData);
+
+    // console output
+
+    // Count of Email: 5
+    // Date Range: Sat Jun 25 2016 - Thu Aug 11 2016
+  </script>
+</body>
+</html>
